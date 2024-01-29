@@ -71,7 +71,7 @@ p {
   width: 65%;
 }
 .uniquechats{
-  height: 85%;
+  height: 84.7%;
 }
 .chatarea{
     background-color: white;
@@ -161,6 +161,12 @@ p {
 .online-offline{
        color: #2d91db;;
 }
+input:focus {
+  outline: none; /* Remove default focus outline */
+}
+.message{
+  position: relative;
+}
   .message-wrapper {
     border-radius: 10px;
     position: absolute;
@@ -171,13 +177,13 @@ p {
     padding: 16px 36px; /* This shorthand represents padding-top, padding-right, padding-bottom, padding-left */
 }
 .message-wrapper-right{
-    color: WHITE;
     BACKGROUND: #665dfe;
     border-radius: 10px;
     position: absolute;
+    right: 0;
     color: white;
     width: 50%;
-    margin-left: 20px;
+    margin-right: 20px;
     padding: 16px 36px;
 }
 
@@ -240,7 +246,7 @@ margin: 0;
     display: flex;
 }
 .message-box-date{
-    padding: 15px;
+  padding-top: 30px;
 }
   #avtaar-dp{
     height: 40px;
@@ -248,8 +254,8 @@ margin: 0;
     border: 5px solid white;
   }
   .dropdown{
-    padding-top: 10px;
-    height: 20px;
+    padding-top: 25px;
+    height: 25px;
   }
   
   /* Webkit scrollbar customization */
