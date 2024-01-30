@@ -3,49 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draggable Div</title>
+  <title>Draggable Playing Cards</title>
   <style>
-    .draggable {
-      width: 100px;
-      height: 100px;
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .card {
+      width: 240px; /* Adjusted width */
+      height: 360px; /* Adjusted height */
       background-color: #3498db;
       color: #fff;
       text-align: center;
-      line-height: 100px;
+      line-height: 360px;
       position: absolute;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
+    .rejected, .liked {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .rejected {
+      left: 10px;
+    }
+    .liked {
+      right: 10px;
+    }
+    #card1 { background-color: #3498db; }
+    #card2 { background-color: #2ecc71; }
+    #card3 { background-color: #e74c3c; }
+    #card4 { background-color: #f39c12; }
+    #card5 { background-color: #9b59b6; }
   </style>
 </head>
 <body>
 
-  <div id="draggableDiv" class="draggable">
-    Drag me!
+  <div id="rejected" class="rejected">&#10005;</div>
+  <div id="liked" class="liked">&#128152;</div>
+
+  <div id="card1" class="card" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-3deg); z-index: 5;">
+    Card 1
+  </div>
+
+  <div id="card2" class="card" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-2deg); z-index: 4;">
+    Card 2
+  </div>
+
+  <div id="card3" class="card" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-1deg); z-index: 3;">
+    Card 3
+  </div>
+
+  <div id="card4" class="card" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(1deg); z-index: 2;">
+    Card 4
+  </div>
+
+  <div id="card5" class="card" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(2deg); z-index: 1;">
+    Card 5
   </div>
 
   <script>
-    var draggableDiv = document.getElementById('draggableDiv');
-    var offsetX, offsetY;
+    var cards = document.querySelectorAll('.card');
+    var rejected = document.getElementById('rejected');
+    var liked = document.getElementById('liked');
+    var activeCard, offsetX, initialX;
 
-    draggableDiv.addEventListener('mousedown', function(e) {
-      offsetX = e.clientX - draggableDiv.offsetLeft;
-      offsetY = e.clientY - draggableDiv.offsetTop;
+    cards.forEach(function(card) {
+      card.addEventListener('mousedown', function(e) {
+        activeCard = card;
+        offsetX = e.clientX - card.offsetLeft;
+        initialX = card.offsetLeft;
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
     });
 
     function onMouseMove(e) {
       var newX = e.clientX - offsetX;
-      var newY = e.clientY - offsetY;
+      var deltaX = newX - initialX;
 
-      draggableDiv.style.left = newX + 'px';
-      draggableDiv.style.top = newY + 'px';
+      cards.forEach(function(card) {
+        if (card === activeCard) {
+          card.style.left = initialX + deltaX + 'px';
+        }
+      });
     }
 
     function onMouseUp() {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+
+      checkTouch();
+    }
+
+    function checkTouch() {
+      var rectRejected = rejected.getBoundingClientRect();
+      var rectLiked = liked.getBoundingClientRect();
+      var rectCard = activeCard.getBoundingClientRect();
+
+      if (rectCard.left < rectRejected.right) {
+        alert('You rejected him!');
+        activeCard.style.display = 'none';
+      } else if (rectCard.right > rectLiked.left) {
+        alert('You liked him!');
+        activeCard.style.display = 'none';
+      }
     }
   </script>
 
