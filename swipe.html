@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draggable Div</title>
+  <style>
+    .draggable {
+      width: 100px;
+      height: 100px;
+      background-color: #3498db;
+      color: #fff;
+      text-align: center;
+      line-height: 100px;
+      position: absolute;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="draggableDiv" class="draggable">
+    Drag me!
+  </div>
+
+  <script>
+    var draggableDiv = document.getElementById('draggableDiv');
+    var offsetX, offsetY;
+
+    draggableDiv.addEventListener('mousedown', function(e) {
+      offsetX = e.clientX - draggableDiv.offsetLeft;
+      offsetY = e.clientY - draggableDiv.offsetTop;
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+      var newX = e.clientX - offsetX;
+      var newY = e.clientY - offsetY;
+
+      draggableDiv.style.left = newX + 'px';
+      draggableDiv.style.top = newY + 'px';
+    }
+
+    function onMouseUp() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+  </script>
+
+</body>
+</html>
